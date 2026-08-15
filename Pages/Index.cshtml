@@ -1,0 +1,738 @@
+@page
+@model IndexModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Anas AI";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>Anas AI</title>
+
+    <link rel="stylesheet"
+          href="~/css/chat.css"
+          asp-append-version="true" />
+
+    <style>
+
+        /* =========================
+           IMAGE PREVIEW
+        ========================= */
+
+        .image-preview {
+            position: absolute;
+            left: 12px;
+            bottom: 70px;
+
+            display: none;
+
+            width: 150px;
+            padding: 8px;
+
+            background: #111827;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 12px;
+
+            box-shadow: 0 10px 35px rgba(0,0,0,.35);
+
+            z-index: 1000;
+        }
+
+        .image-preview img {
+            display: block;
+
+            width: 134px;
+            height: 100px;
+
+            object-fit: cover;
+
+            border-radius: 8px;
+        }
+
+        .image-preview button {
+            display: block;
+
+            width: 100%;
+            margin-top: 6px;
+
+            padding: 5px;
+
+            border: 0;
+            border-radius: 7px;
+
+            background: #374151;
+            color: white;
+
+            cursor: pointer;
+        }
+
+        .image-preview button:hover {
+            background: #4b5563;
+        }
+
+
+        /* =========================
+           IMAGE MESSAGE
+        ========================= */
+
+        .message-image {
+            display: block;
+
+            max-width: 280px;
+            max-height: 280px;
+
+            margin-bottom: 8px;
+
+            border-radius: 12px;
+            object-fit: contain;
+        }
+
+
+        /* =========================
+           INPUT BOX
+        ========================= */
+
+        .input-box {
+            position: relative;
+        }
+
+
+        /* =========================
+           VOICE BUTTON
+        ========================= */
+
+        .voice-mode-btn {
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .voice-mode-btn.active {
+            background: #ef4444 !important;
+            color: white !important;
+        }
+
+
+        /* =========================
+           USER PROFILE
+        ========================= */
+
+        .user-profile {
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @@media (max-width: 700px) {
+
+            .image-preview {
+                left: 8px;
+                bottom: 65px;
+            }
+
+            .message-image {
+                max-width: 220px;
+                max-height: 220px;
+            }
+
+        }
+
+    </style>
+
+    <!-- =========================================
+         CURRENT LOGGED-IN USER
+    ========================================== -->
+
+    <script>
+        window.anasAIUser = {
+            username: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CurrentUsername)),
+            plan: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CurrentPlan))
+        };
+    </script>
+
+</head>
+
+
+<body>
+
+<div class="anas-ai-app">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="brand">
+
+                <div class="brand-logo">
+                    A
+                </div>
+
+                <div class="brand-text">
+
+                    <strong>Anas AI</strong>
+
+                    <span>
+                        AI Assistant
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="new-chat-btn"
+                id="newChatBtn"
+                type="button">
+
+                <span>＋</span>
+
+                <span>
+                    New Chat
+                </span>
+
+            </button>
+
+
+            <div class="search-box">
+
+                <span>⌕</span>
+
+                <input
+                    type="text"
+                    id="searchChats"
+                    placeholder="Search chats..." />
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             CHAT HISTORY
+        ========================================== -->
+
+        <div
+            class="chat-history"
+            id="chatHistory">
+
+            <div class="history-label">
+                Today
+            </div>
+
+            <button
+                class="history-item active"
+                type="button">
+
+                <span>💬</span>
+
+                <span class="history-title">
+                    New conversation
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <!-- =========================================
+             SIDEBAR BOTTOM
+        ========================================== -->
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="sidebar-item"
+                id="themeBtn"
+                type="button">
+
+                <span>◐</span>
+
+                <span>
+                    Dark mode
+                </span>
+
+            </button>
+
+
+            <button
+                class="sidebar-item"
+                id="settingsBtn"
+                type="button">
+
+                <span>⚙</span>
+
+                <span>
+                    Settings
+                </span>
+
+            </button>
+
+
+            <!-- =====================================
+                 DYNAMIC USER PROFILE
+            ====================================== -->
+
+            <div class="user-profile">
+
+                <div class="user-avatar">
+                    @(string.IsNullOrWhiteSpace(Model.CurrentUsername)
+                        ? "U"
+                        : Model.CurrentUsername.Substring(0, 1).ToUpper())
+                </div>
+
+                <div class="user-info">
+
+                    <strong>
+                        @Model.CurrentUsername
+                    </strong>
+
+                    <span>
+                        @Model.CurrentPlan Account
+                    </span>
+
+                </div>
+
+                <span class="profile-more">
+                    •••
+                </span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================
+         MAIN CHAT
+    ========================================== -->
+
+    <main class="chat-area">
+
+
+        <!-- =========================================
+             HEADER
+        ========================================== -->
+
+        <header class="chat-header">
+
+            <button
+                class="mobile-menu"
+                id="mobileMenu"
+                type="button">
+
+                ☰
+
+            </button>
+
+
+            <div class="model-info">
+
+                <div class="model-avatar">
+                    A
+                </div>
+
+                <div>
+
+                    <strong>
+                        Anas AI
+                    </strong>
+
+                    <span id="connectionStatus">
+                        Online
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <button
+                    title="New chat"
+                    id="headerNewChat"
+                    type="button">
+
+                    ＋
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================================
+             MESSAGES
+        ========================================== -->
+
+        <section
+            class="messages"
+            id="messages">
+
+
+            <!-- =====================================
+                 WELCOME
+            ====================================== -->
+
+            <div
+                class="welcome-screen"
+                id="welcomeScreen">
+
+                <div class="welcome-logo">
+                    A
+                </div>
+
+
+                <h1>
+                    How can I help you today?
+                </h1>
+
+
+                <p>
+                    Ask Anas AI anything — coding,
+                    questions, writing, learning and more.
+                </p>
+
+
+                <div class="suggestions">
+
+
+                    <button
+                        class="suggestion"
+                        type="button">
+
+                        <span>
+                            💡
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Explain something
+                            </strong>
+
+                            <small>
+                                Explain a difficult topic simply
+                            </small>
+
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        class="suggestion"
+                        type="button">
+
+                        <span>
+                            💻
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Help me code
+                            </strong>
+
+                            <small>
+                                Build or debug my project
+                            </small>
+
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        class="suggestion"
+                        type="button">
+
+                        <span>
+                            📝
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Write something
+                            </strong>
+
+                            <small>
+                                Create text, ideas or content
+                            </small>
+
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        class="suggestion"
+                        type="button">
+
+                        <span>
+                            🌐
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Translate
+                            </strong>
+
+                            <small>
+                                Translate text between languages
+                            </small>
+
+                        </div>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             LIVE VOICE PANEL
+        ========================================== -->
+
+        <div
+            class="voice-panel"
+            id="voicePanel"
+            aria-hidden="true">
+
+            <div class="voice-panel-inner">
+
+
+                <div
+                    class="voice-orb"
+                    id="voiceOrb">
+
+                    <div class="voice-orb-letter">
+                        A
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="voice-state"
+                    id="voiceState">
+
+                    Ready
+
+                </div>
+
+
+                <div
+                    class="voice-subtitle"
+                    id="voiceSubtitle">
+
+                    Tap the microphone to talk to Anas AI
+
+                </div>
+
+
+                <div class="voice-controls">
+
+
+                    <button
+                        id="voiceMuteBtn"
+                        class="voice-control"
+                        type="button"
+                        title="Mute microphone">
+
+                        🎤
+
+                    </button>
+
+
+                    <button
+                        id="voiceMainBtn"
+                        class="voice-main-btn"
+                        type="button"
+                        title="Start voice conversation">
+
+                        🎙️
+
+                    </button>
+
+
+                    <button
+                        id="voiceCloseBtn"
+                        class="voice-control"
+                        type="button"
+                        title="Close voice mode">
+
+                        ✕
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             INPUT CONTAINER
+        ========================================== -->
+
+        <div class="input-container">
+
+
+            <div class="input-box">
+
+
+                <!-- =================================
+                     HIDDEN IMAGE INPUT
+                ================================== -->
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                    hidden />
+
+
+                <!-- =================================
+                     PHOTO BUTTON
+                ================================== -->
+
+                <button
+                    class="input-action"
+                    id="attachBtn"
+                    type="button"
+                    title="Add photo">
+
+                    📷
+
+                </button>
+
+
+                <!-- =================================
+                     IMAGE PREVIEW
+                ================================== -->
+
+                <div
+                    id="imagePreview"
+                    class="image-preview">
+
+                    <img
+                        id="previewImage"
+                        src=""
+                        alt="Selected image" />
+
+
+                    <button
+                        id="removeImageBtn"
+                        type="button"
+                        title="Remove image">
+
+                        Remove
+
+                    </button>
+
+                </div>
+
+
+                <!-- =================================
+                     MESSAGE INPUT
+                ================================== -->
+
+                <textarea
+                    id="messageInput"
+                    rows="1"
+                    placeholder="Message Anas AI..."
+                    autocomplete="off"></textarea>
+
+
+                <!-- =================================
+                     LIVE VOICE
+                ================================== -->
+
+                <button
+                    id="voiceBtn"
+                    class="voice-mode-btn"
+                    type="button"
+                    title="Open Live Voice Mode">
+
+                    🎙️
+
+                </button>
+
+
+                <!-- =================================
+                     SEND
+                ================================== -->
+
+                <button
+                    class="send-btn"
+                    id="sendBtn"
+                    type="button"
+                    title="Send message">
+
+                    ↑
+
+                </button>
+
+            </div>
+
+
+            <div class="input-footer">
+
+                Anas AI can make mistakes.
+                Check important information.
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================
+     ANAS AI JAVASCRIPT
+========================================= -->
+
+<script
+    src="~/js/chat.js"
+    asp-append-version="true">
+</script>
+
+
+</body>
+
+</html>

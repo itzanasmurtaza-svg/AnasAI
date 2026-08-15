@@ -1,0 +1,261 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Anas AI";
+}
+
+<div style="background:red;color:white;padding:30px;font-size:30px;">
+    ANAS VOICE TEST
+</div>
+<div class="anas-ai-app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="brand">
+                <div class="brand-logo">A</div>
+
+                <div class="brand-text">
+                    <strong>Anas AI</strong>
+                    <span>AI Assistant</span>
+                </div>
+            </div>
+
+            <button class="new-chat-btn" id="newChatBtn" type="button">
+                <span>＋</span>
+                <span>New Chat</span>
+            </button>
+
+            <div class="search-box">
+                <span>⌕</span>
+                <input type="text"
+                       id="searchChats"
+                       placeholder="Search chats..." />
+            </div>
+
+        </div>
+
+        <div class="chat-history" id="chatHistory">
+
+            <div class="history-label">
+                Today
+            </div>
+
+            <button class="history-item active" type="button">
+                <span>💬</span>
+                <span class="history-title">
+                    New conversation
+                </span>
+            </button>
+
+        </div>
+
+        <div class="sidebar-bottom">
+
+            <button class="sidebar-item"
+                    id="themeBtn"
+                    type="button">
+                <span>◐</span>
+                <span>Dark mode</span>
+            </button>
+
+            <button class="sidebar-item" type="button">
+                <span>⚙</span>
+                <span>Settings</span>
+            </button>
+
+            <div class="user-profile">
+
+                <div class="user-avatar">A</div>
+
+                <div class="user-info">
+                    <strong>Anas</strong>
+                    <span>Free Account</span>
+                </div>
+
+                <span class="profile-more">•••</span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CHAT -->
+    <main class="chat-area">
+
+        <!-- HEADER -->
+        <header class="chat-header">
+
+            <button class="mobile-menu"
+                    id="mobileMenu"
+                    type="button">
+                ☰
+            </button>
+
+            <div class="model-info">
+
+                <div class="model-avatar">
+                    A
+                </div>
+
+                <div>
+                    <strong>Anas AI</strong>
+                    <span>Online</span>
+                </div>
+
+            </div>
+
+            <div class="header-actions">
+
+                <button title="New chat"
+                        id="headerNewChat"
+                        type="button">
+                    ＋
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- MESSAGES -->
+        <section class="messages" id="messages">
+
+            <div class="welcome-screen" id="welcomeScreen">
+
+                <div class="welcome-logo">
+                    A
+                </div>
+
+                <h1>
+                    How can I help you today?
+                </h1>
+
+                <p>
+                    Ask Anas AI anything — coding,
+                    questions, writing, learning and more.
+                </p>
+
+                <div class="suggestions">
+
+                    <button class="suggestion" type="button">
+                        <span>💡</span>
+
+                        <div>
+                            <strong>Explain something</strong>
+                            <small>
+                                Explain a difficult topic simply
+                            </small>
+                        </div>
+                    </button>
+
+                    <button class="suggestion" type="button">
+                        <span>💻</span>
+
+                        <div>
+                            <strong>Help me code</strong>
+                            <small>
+                                Build or debug my project
+                            </small>
+                        </div>
+                    </button>
+
+                    <button class="suggestion" type="button">
+                        <span>📝</span>
+
+                        <div>
+                            <strong>Write something</strong>
+                            <small>
+                                Create text, ideas or content
+                            </small>
+                        </div>
+                    </button>
+
+                    <button class="suggestion" type="button">
+                        <span>🌐</span>
+
+                        <div>
+                            <strong>Translate</strong>
+                            <small>
+                                Translate text between languages
+                            </small>
+                        </div>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- INPUT -->
+        <div class="input-container">
+
+            <div class="input-box">
+
+                <button class="input-action"
+                        id="attachBtn"
+                        type="button"
+                        title="Attach">
+                    ＋
+                </button>
+
+                <textarea id="messageInput"
+                          rows="1"
+                          placeholder="Message Anas AI..."
+                          autocomplete="off"></textarea>
+
+                <button id="voiceBtn"
+                        type="button"
+                        title="Voice Mode"
+                        style="
+                        display:flex !important;
+                        align-items:center !important;
+                        justify-content:center !important;
+                        width:50px !important;
+                        height:50px !important;
+                        min-width:50px !important;
+                        min-height:50px !important;
+                        margin:0 6px !important;
+                        padding:0 !important;
+                        border-radius:50% !important;
+                        border:2px solid white !important;
+                        background:#111827 !important;
+                        color:white !important;
+                        font-size:24px !important;
+                        cursor:pointer !important;
+                        opacity:1 !important;
+                        visibility:visible !important;
+                        position:relative !important;
+                        z-index:999999 !important;">
+                    🎤
+                </button>
+
+                <button class="send-btn"
+                        id="sendBtn"
+                        type="button"
+                        title="Send message">
+                    ↑
+                </button>
+
+            </div>
+
+            <div class="input-footer">
+                Anas AI can make mistakes.
+                Check important information.
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- ONLY ONE chat.js -->
+<script src="/js/chat.js"></script>

@@ -1,0 +1,8 @@
+D:\Downloads\Anas_AI_Folder_Structure(1)\Anas_AI_Folder_Structure\AnasAI\obj\Debug\net8.0\AnasAI.csproj.AssemblyReference.cache
+D:\Downloads\Anas_AI_Folder_Structure(1)\Anas_AI_Folder_Structure\AnasAI\obj\Debug\net8.0\AnasAI.GeneratedMSBuildEditorConfig.editorconfig
+D:\Downloads\Anas_AI_Folder_Structure(1)\Anas_AI_Folder_Structure\AnasAI\obj\Debug\net8.0\AnasAI.AssemblyInfoInputs.cache
+D:\Downloads\Anas_AI_Folder_Structure(1)\Anas_AI_Folder_Structure\AnasAI\obj\Debug\net8.0\AnasAI.AssemblyInfo.cs
+D:\Downloads\Anas_AI_Folder_Structure(1)\Anas_AI_Folder_Structure\AnasAI\obj\Debug\net8.0\AnasAI.csproj.CoreCompileInputs.cache
+D:\Downloads\Anas_AI_Folder_Structure(1)\Anas_AI_Folder_Structure\AnasAI\obj\Debug\net8.0\AnasAI.MvcApplicationPartsAssemblyInfo.cache
+D:\Downloads\Anas_AI_Folder_Structure(1)\Anas_AI_Folder_Structure\AnasAI\obj\Debug\net8.0\AnasAI.RazorAssemblyInfo.cache
+D:\Downloads\Anas_AI_Folder_Structure(1)\Anas_AI_Folder_Structure\AnasAI\obj\Debug\net8.0\AnasAI.RazorAssemblyInfo.cs

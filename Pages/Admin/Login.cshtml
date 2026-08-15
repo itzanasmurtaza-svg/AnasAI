@@ -1,0 +1,650 @@
+@page
+@model AnasAI.Pages.Admin.LoginModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Admin Login — Anas AI";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>Admin Login — Anas AI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 24px;
+
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 20% 10%,
+                    rgba(16, 163, 127, .18),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(59, 130, 246, .12),
+                    transparent 35%
+                ),
+                #080b12;
+
+            color: #ffffff;
+
+            overflow: hidden;
+        }
+
+        /* =========================
+           BACKGROUND
+        ========================= */
+
+        .background-glow {
+            position: fixed;
+
+            width: 500px;
+            height: 500px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(16, 163, 127, .08);
+
+            filter: blur(100px);
+
+            pointer-events: none;
+        }
+
+        .glow-one {
+            top: -250px;
+            left: -200px;
+        }
+
+        .glow-two {
+            right: -250px;
+            bottom: -250px;
+        }
+
+        /* =========================
+           LOGIN CARD
+        ========================= */
+
+        .login-card {
+
+            position: relative;
+            z-index: 2;
+
+            width: min(430px, 100%);
+
+            padding: 36px;
+
+            border-radius: 26px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(25, 31, 44, .96),
+                    rgba(12, 16, 25, .96)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+
+            box-shadow:
+                0 35px 100px
+                rgba(0,0,0,.55),
+
+                inset 0 1px 0
+                rgba(255,255,255,.04);
+
+            backdrop-filter:
+                blur(25px);
+
+            animation:
+                cardIn .45s ease;
+        }
+
+        @@keyframes cardIn {
+
+            from {
+                opacity: 0;
+                transform:
+                    translateY(15px)
+                    scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+        /* =========================
+           BRAND
+        ========================= */
+
+        .brand {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .logo {
+
+            width: 64px;
+            height: 64px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 19px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #10a37f,
+                    #087f63
+                );
+
+            color: white;
+
+            font-size: 27px;
+            font-weight: 800;
+
+            box-shadow:
+                0 12px 35px
+                rgba(16,163,127,.28);
+        }
+
+        .brand h1 {
+
+            margin: 0;
+
+            font-size: 26px;
+
+            letter-spacing: -.5px;
+        }
+
+        .brand p {
+
+            margin: 8px 0 0;
+
+            color: #8f9aaa;
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           SECURITY BADGE
+        ========================= */
+
+        .security-badge {
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 7px;
+
+            width: fit-content;
+
+            margin: 0 auto 26px;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(16,163,127,.08);
+
+            border:
+                1px solid
+                rgba(16,163,127,.16);
+
+            color: #7dd3bd;
+
+            font-size: 11px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 8px;
+
+            color: #d6dbe4;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 14px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color: #687386;
+
+            font-size: 15px;
+
+            pointer-events: none;
+        }
+
+        input {
+
+            width: 100%;
+
+            height: 48px;
+
+            padding:
+                0 14px 0 42px;
+
+            border:
+                1px solid
+                #303746;
+
+            border-radius: 13px;
+
+            outline: none;
+
+            background:
+                rgba(8, 11, 18, .72);
+
+            color: #ffffff;
+
+            font-size: 13px;
+
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease,
+                background .2s ease;
+        }
+
+        input::placeholder {
+            color: #596274;
+        }
+
+        input:hover {
+            border-color: #414a5c;
+        }
+
+        input:focus {
+
+            border-color:
+                #10a37f;
+
+            background:
+                rgba(8, 11, 18, .95);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(16,163,127,.11);
+        }
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 9px;
+
+            margin-bottom: 18px;
+
+            padding: 11px 13px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(239,68,68,.09);
+
+            border:
+                1px solid
+                rgba(239,68,68,.18);
+
+            color: #fca5a5;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .login-button {
+
+            width: 100%;
+
+            height: 49px;
+
+            margin-top: 5px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #10a37f,
+                    #0b8f70
+                );
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 28px
+                rgba(16,163,127,.18);
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease,
+                opacity .2s ease;
+        }
+
+        .login-button:hover {
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 14px 35px
+                rgba(16,163,127,.25);
+        }
+
+        .login-button:active {
+
+            transform:
+                translateY(0);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .secure {
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 6px;
+
+            margin-top: 23px;
+
+            color: #687386;
+
+            font-size: 10px;
+        }
+
+        .version {
+
+            margin-top: 10px;
+
+            text-align: center;
+
+            color: #414a5a;
+
+            font-size: 9px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @@media (max-width: 500px) {
+
+            body {
+                padding: 15px;
+                overflow: auto;
+            }
+
+            .login-card {
+                padding: 28px 22px;
+                border-radius: 22px;
+            }
+
+            .brand h1 {
+                font-size: 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <main class="login-card">
+
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="logo">
+                A
+            </div>
+
+            <h1>
+                Anas AI Admin
+            </h1>
+
+            <p>
+                Secure administrator access
+            </p>
+
+        </div>
+
+
+        <!-- SECURITY -->
+
+        <div class="security-badge">
+
+            <span>🔒</span>
+
+            <span>
+                Protected Administration Panel
+            </span>
+
+        </div>
+
+
+        <!-- ERROR -->
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="error">
+
+                <span>⚠️</span>
+
+                <span>
+                    @Model.ErrorMessage
+                </span>
+
+            </div>
+        }
+
+
+        <!-- LOGIN FORM -->
+
+        <form method="post">
+
+
+            <!-- USERNAME -->
+
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="Username">
+
+                    <span>
+                        Username
+                    </span>
+
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        👤
+                    </span>
+
+                    <input
+                        asp-for="Username"
+                        id="Username"
+                        autocomplete="username"
+                        placeholder="Enter admin username"
+                        required />
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="Password">
+
+                    <span>
+                        Password
+                    </span>
+
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔑
+                    </span>
+
+                    <input
+                        asp-for="Password"
+                        id="Password"
+                        type="password"
+                        autocomplete="current-password"
+                        placeholder="Enter admin password"
+                        required />
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <button
+                type="submit"
+                class="login-button">
+
+                Sign in to Dashboard
+
+            </button>
+
+
+        </form>
+
+
+        <!-- FOOTER -->
+
+        <div class="secure">
+
+            <span>🛡️</span>
+
+            <span>
+                Secure Anas AI Administration
+            </span>
+
+        </div>
+
+        <div class="version">
+            ANAS AI • ADMIN PANEL
+        </div>
+
+
+    </main>
+
+</body>
+
+</html>
